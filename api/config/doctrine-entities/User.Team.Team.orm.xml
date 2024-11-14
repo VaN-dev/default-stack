@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Domain\Model\Entity\User\Team\Team" table="teams">
+        <unique-constraints>
+            <unique-constraint name="team_uuid_idx" columns="uuid" />
+        </unique-constraints>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY" />
+        </id>
+
+        <field name="uuid" column="uuid" type="guid" unique="true" />
+        <field name="name" column="name" length="255" />
+        <many-to-one field="company" target-entity="Domain\Model\Entity\User\Company\Company">
+            <join-columns>
+                <join-column name="company_id" on-delete="CASCADE" />
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,83 @@
+services:
+    # the backend with the php binary
+    php:
+        # use the Dockerfile in the current directory to
+        # build the image for this container
+        build:
+            context: ./docker/php
+        depends_on:
+            - database
+        # mount local directory ./app
+        # to the /var/www/html inside the container
+        # to synchronize the directories
+        # works well for Linux, might be slower for MacOS though
+        volumes:
+            - ${PWD}/api:/var/www/api
+
+    # the proxy service
+    # will accept http connections and route them
+    # to the "php" backend
+    nginx:
+        # we don't build here anything
+        # simply use the base image
+        # @see https://hub.docker.com/_/nginx
+        image: nginx:1-alpine
+
+        # depend on the php container
+        # if php is recreated, this container will too
+        depends_on:
+            - php
+
+        # bind local port 80 to the container's 80
+        # this way we can simply access the app at
+        # http://localhost
+        # if you expose port like that: "4444:80"
+        # the app will be accessible at http://localhost:4444
+        # the local port has to be free to use
+        # otherwise the project won't start
+        ports:
+            - "4000:80"
+
+        # override the container's /etc/nginx/conf.d/default.conf
+        # with the local version nginx.conf
+        # also mount the "app/public" directory to the /var/www/html/public
+        # otherwise the app won't be able to serve static files
+        # like robots.txt and alike
+        volumes:
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./api/public:/var/www/api/public
+
+    app-admin: #This is the name of our Nextjs application.
+        build: #This specifies the location of our Dockerfile
+            context: ./app-admin #This specifies the location of our Dockerfile
+        command: dev #command to execute
+        ports: #This is used to map the container’s ports to the host machine.
+            - "3000:3000"
+        volumes:
+            - ${PWD}/app-admin:/usr/src/app
+            - /usr/src/app/node_modules
+            - /usr/src/app/.next
+
+    database:
+        image: mysql:8
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-default}
+            MYSQL_USER: ${DATABASE_USER:-david}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}
+        volumes:
+            - db-data:/var/lib/mysql:rw
+        ports:
+            - "33060:3306"
+
+volumes:
+    #nodemodules: {}
+    ###> doctrine/doctrine-bundle ###
+    db-data:
+    ###< doctrine/doctrine-bundle ###
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+    my_network:
+        external: true

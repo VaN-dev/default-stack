@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        tags: ['validator.constraint_validator']
+
+    Domain\Model\Validation\:
+        resource: '../../../src/Domain/Model/Validation'
+        tags: [ 'validator.constraint_validator' ]
+
+#    Domain\Model\Validation\Project\ValidTitleValidator: ~

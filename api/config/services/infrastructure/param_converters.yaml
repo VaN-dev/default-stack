@@ -1,0 +1,32 @@
+services:
+    _defaults:
+        autowire: true          # Automatically injects dependencies in your services.
+        autoconfigure: false    # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+#    App\Http\Request\ParamConverter\AppGetRequestDataParamConverter:
+#        arguments:
+#            -
+#                - 'App\Http\Request\Input\Get\'
+#                - 'App\Http\Request\Input\Delete\'
+#            - '@request_stack'
+#            - '@validator'
+#        tags:
+#            - { name: request.param_converter }
+
+    Infrastructure\Http\Request\ParamConverter\AppJsonDataParamConverter:
+        arguments:
+            $appRequestDtoNamespaces:
+                - 'Infrastructure\Http\Request\Input\Post\'
+                - 'Infrastructure\Http\Request\Input\Put\'
+                - 'Infrastructure\Http\Request\Input\Patch\'
+#                - 'Application\Command\'
+            $validator: '@validator'
+        tags:
+            - { name: request.param_converter }
+
+
+
+#    App\Http\Request\ParamConverter\Security\MeParamConverter:
+#        autowire: true
+#        tags:
+#            - { name: request.param_converter }

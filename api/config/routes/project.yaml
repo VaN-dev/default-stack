@@ -1,0 +1,24 @@
+projects.list:
+    path: /projects
+    controller: Infrastructure\Http\Controller\Project\ListProjectsAction
+    methods: GET
+
+projects.get:
+    path: /projects/{uuid}
+    controller: Infrastructure\Http\Controller\Project\GetProjectAction
+    methods: GET
+
+projects.create:
+    path: /projects
+    controller: Infrastructure\Http\Controller\Project\CreateProjectAction
+    methods: POST
+
+projects.update:
+    path: /projects/{uuid}
+    controller: Infrastructure\Http\Controller\Project\UpdateProjectAction
+    methods: PUT
+
+projects.delete:
+    path: /projects/{uuid}
+    controller: Infrastructure\Http\Controller\Project\DeleteProjectAction
+    methods: DELETE

@@ -1,0 +1,9 @@
+services:
+
+    Infrastructure\Http\Response\Responder\GenericSerializableResponder:
+        autowire: true
+
+    Infrastructure\Http\Response\Responder\GenericExceptionResponder:
+        arguments:
+            - '%kernel.debug%'
+            - '%env(string:APP_ENV)%'

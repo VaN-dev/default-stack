@@ -1,0 +1,16 @@
+services:
+    # Kernel events
+    Application\EventListener\Kernel\JsonRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    Application\EventListener\Kernel\JsonResponseContentTypeEnforcerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, priority: -1 }
+
+    Application\EventListener\Kernel\ExceptionJsonFormatterListener:
+        arguments:
+            - '@Infrastructure\Http\Response\Responder\GenericExceptionResponder'
+            - '@?monolog.logger'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

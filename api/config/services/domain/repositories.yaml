@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Domain\Model\Repository\Project\ProjectRepository:
+        class: Infrastructure\Repository\Project\DoctrineProjectRepository
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+
+    doctrine.repository.project:
+        class: Doctrine\ORM\EntityRepository
+        public: false
+        factory: [ '@doctrine.orm.default_entity_manager', getRepository ]
+        arguments:
+            - Domain\Model\Entity\Project\Project

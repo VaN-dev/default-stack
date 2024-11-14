@@ -1,0 +1,19 @@
+companies.list:
+    path: /companies
+    controller: Infrastructure\Http\Controller\User\Company\ListCompaniesAction
+    methods: GET
+
+companies.get:
+    path: /companies/{uuid}
+    controller: Infrastructure\Http\Controller\User\Company\GetCompanyAction
+    methods: GET
+
+companies.create:
+    path: /companies
+    controller: Infrastructure\Http\Controller\User\Company\CreateCompanyAction
+    methods: POST
+
+companies.delete:
+    path: /companies/{uuid}
+    controller: Infrastructure\Http\Controller\User\Company\DeleteCompanyAction
+    methods: DELETE

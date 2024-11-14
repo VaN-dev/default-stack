@@ -1,0 +1,9 @@
+roles.list:
+    path: /roles
+    controller: Infrastructure\Http\Controller\User\Role\ListRolesAction
+    methods: GET
+
+roles.create:
+    path: /roles
+    controller: Infrastructure\Http\Controller\User\Role\CreateRoleAction
+    methods: POST

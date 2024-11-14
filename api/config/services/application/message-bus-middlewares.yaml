@@ -1,0 +1,13 @@
+# Don't forget to also register them as middlewares in api/config/packages/messenger.yaml
+services:
+    Application\MessageBus\Middleware\LoggingMiddleware:
+        autowire: true
+        public: false
+        tags:
+            - { name: command_bus_middleware }
+
+    Application\MessageBus\Middleware\CommandValidationBySymfonyMiddleware:
+        autowire: true
+        public: false
+        tags:
+            - { name: command_bus_middleware }
